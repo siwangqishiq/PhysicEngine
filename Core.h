@@ -28,7 +28,9 @@ typedef int boolean;
 #define  YES    1
 #define  NO     0
 
-#define OK        1
-#define ERROR    -1
+#define OK        (0)
+#define ERROR    (-1)
+
+typedef int STATUS;
 
 #endif /* defined(__Lelouch__Core__) */

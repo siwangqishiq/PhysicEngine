@@ -41,6 +41,8 @@ void vector2scalar(Vector2 *self,real value);//乘以常数
 
 void vector2Add(Vector2 *self,const Vector2 *pAddVect);//向量相加
 
+void vector2AddByVal(Vector2 *vector,real v_x,real v_y);//向量相加
+
 void vector2Minus(Vector2 *self,const Vector2 *pVect);//向量相减
 
 void vector2AddScaled(Vector2 *self,const Vector2 *pVect,real scale);//v' = v + v2*scale

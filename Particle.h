@@ -42,6 +42,8 @@ void particleClearAccmulator(Particle *self);//清除合力
 
 void particleAddForce(Particle *self, Vector2 *force);//添加作用力
 
+void particleAddForce2(Particle *particle,real force_x,real force_y);//添加作用力
+
 void particleGetVelocity(Particle *self,Vector2 *pVelocity);//获取速度向量
 
 void particleGetPosition(Particle *self,Vector2 *pPosition);//获取位置向量

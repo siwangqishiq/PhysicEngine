@@ -12,8 +12,7 @@
 #include <stdio.h>
 #include "ParticleForceGenerator.h"
 
-typedef struct _ParticleForceList
-{
+typedef struct _ParticleForceList{
     ParticleForceRegistery *head;
     unsigned int size;
 } ParticleForceList;

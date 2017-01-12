@@ -74,10 +74,15 @@ void vector2scalar(Vector2 *self,real value)
 }
 
 //向量加法
-void vector2Add(Vector2 *self,const Vector2 *pAddVect)
-{
+void vector2Add(Vector2 *self,const Vector2 *pAddVect){
     self->x += pAddVect->x;
     self->y += pAddVect->y;
+}
+
+//向量相加
+void vector2AddByVal(Vector2 *vector,real v_x,real v_y){
+    vector->x += v_x;
+    vector->y += v_y;
 }
 
 //向量减法

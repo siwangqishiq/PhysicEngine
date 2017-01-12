@@ -5,8 +5,7 @@
 //  Created by  潘易  on 16/10/17.
 //  Copyright (c) 2016年 xinlan. All rights reserved.
 //
-
-/*#include <stdio.h>
+#include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -181,4 +180,4 @@ void onDestory()
     particleFree(particleA);
     
     particleForceGenAnchorSpringFree(anchorSpringForceGen);
-}*/
+}

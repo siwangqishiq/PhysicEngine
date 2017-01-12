@@ -80,9 +80,13 @@ void particleClearAccmulator(Particle *self)
     self->forceAccum.y = 0;
 }
 
-void particleAddForce(Particle *self, Vector2 *force)
-{
+void particleAddForce(Particle *self, Vector2 *force){
     vector2Add(&self->forceAccum, force);
+}
+
+//添加作用力
+void particleAddForce2(Particle *particle,real force_x,real force_y){
+    vector2AddByVal(&particle->forceAccum, force_x, force_y);
 }
 
 void particleGetVelocity(Particle *self,Vector2 *pVelocity)//获取速度向量
