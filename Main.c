@@ -13,9 +13,15 @@
 #include "Vector2.h"
 #include "Particle.h"
 #include "ParticleForceList.h"
-
+#include "GameInstance.h"
 
 //GLboolean Large = GL_FALSE; //坐标单位变大或变小
+
+//GameInstance *createGravityGameInstance();
+
+extern GameInstance *createGravityGameInstance();
+
+GameInstance *gameInstance;
 
 float camera_x,camera_y;
 
@@ -66,21 +72,19 @@ void drawBgView()
     Color bg_color={0,0,0};
     
     int pad = 100;
-    for(float x = -WORLD_WIDTH;x <= WORLD_WIDTH;x+=pad)
-    {
+    for(float x = -WORLD_WIDTH;x <= WORLD_WIDTH;x+=pad){
         drawLine(x, -WORLD_HEIGHT, x, WORLD_HEIGHT, bg_color);
     }//end for x
     
-    for(float x = -WORLD_HEIGHT;x <= WORLD_HEIGHT;x+=pad)
-    {
+    for(float x = -WORLD_HEIGHT;x <= WORLD_HEIGHT;x+=pad){
         drawLine(-WORLD_WIDTH, x, WORLD_WIDTH, x, bg_color);
     }//end for x
     
     //drawLine(100, 100, WORLD_WIDTH, SCREEN_HEIGHT, bg_color);
 }
 
-void handleKeyInput(unsigned char key, int x, int y)
-{
+void handleKeyInput(unsigned char key, int x, int y){
+    //printf("key down = %c\n",key);
     switch ((int)key)
     {
         case 27://exit
@@ -91,7 +95,20 @@ void handleKeyInput(unsigned char key, int x, int y)
             break;
     }
     
+    if(gameInstance->onKeyDown){
+        gameInstance->onKeyDown(key);
+    }
+    
     glutPostRedisplay();//redraw image on screen
+}
+
+void handleKeyUp(unsigned char key, int x, int y){
+    
+    //printf("key up = %c\n",key);
+    
+    if(gameInstance->onKeyUp){
+        gameInstance->onKeyUp(key);
+    }
 }
 
 
@@ -107,6 +124,7 @@ int main(int argc,char* argv[])
     //glutReshapeFunc(OnReShape);
     glutDisplayFunc(OnDisplay);
     glutKeyboardFunc(handleKeyInput);
+    glutKeyboardUpFunc(handleKeyUp);
     
     glClearColor (1.0, 1.0, 1.0, 1.0); //背景白色
     
@@ -116,6 +134,8 @@ int main(int argc,char* argv[])
     
     thisTime = systemTime();
     
+    gameInstance = createGravityGameInstance();
+    
     init();
     
     glutMainLoop();
@@ -123,61 +143,18 @@ int main(int argc,char* argv[])
     return 0;
 }
 
-//main
-//float cx,cy;
-//float delta;
-
-Particle *particleA;
-ParticleForceList *pfList;
-
-ParticleForceGen *anchorSpringForceGen = NULL;
-
-void init()
-{
-    particleA = particleCreate();
-    particleSetMass(particleA, 1);
-    
-    particleA->position.x = 100;
-    particleA->position.y = 0;
-    
-    pfList = particleForceListCreate();
-    
-    anchorSpringForceGen = particleForceGenAnchorSpringCreate(0,0, 10, 50);
-    
-    particleForceRegisteryAdd(pfList, particleA, anchorSpringForceGen);
-    
-    setCameraPos(particleA->position.x, particleA->position.y);
+void init(){
+    gameInstance->gameInit();
 }
 
 
 
-void doMainLoop(float duration)
-{
-    
-    particleForceRegsiteryUpdateForce(pfList, duration);
-    
-    AnchorSpringParams *params = (AnchorSpringParams *)anchorSpringForceGen->params;
-    
-    Color black = {0,0,0};
-    drawSolidCircle(params->anchor->x,params->anchor->y,3,black);
-    
-    particleIntegrate(particleA, duration);
-    Color yellow = {255,255,0};
-    drawSolidCircle(particleA->position.x, particleA->position.y, 10 , yellow);
-    
-    
-    //printf("%f    %f\n",particle->position.x,particle->position.y);
-    
-    setCameraPos(particleA->position.x, particleA->position.y);
-    
+void doMainLoop(float duration){
+    gameInstance->gameMainLoop(duration);
     drawBgView();
 }
 
-void onDestory()
-{
-    //printf("onDestory");
-    particleForceListFree(pfList);
-    particleFree(particleA);
-    
-    particleForceGenAnchorSpringFree(anchorSpringForceGen);
+void onDestory(){
+    gameInstance->gameFree();
+    free(gameInstance);
 }
