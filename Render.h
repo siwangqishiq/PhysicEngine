@@ -48,8 +48,6 @@ void drawRect2(Rect *pRect,Color color);
 
 void drawPolygon(float x[],float  y[],int size,const Color color);//
 
-void drawCircle(float x,float y,float radius,const Color color);//
-
 void setCameraPos(float x,float y);//设置摄像机位置
 
 void rotatePolygon(float x[],float y[],int size,const Color color,float dtheta);//

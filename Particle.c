@@ -17,6 +17,7 @@ Particle *particleCreate()
     memset(p, 0, sizeof(Particle));
     
     p->damping = 1;
+    particleSetMass(p,1);
     
     return p;
 }
@@ -64,7 +65,7 @@ void particleIntegrate(Particle *self,real duration)
     Vector2 resultAcc = self->acceleration;
     //Vector2 forceAccum = {10,0};//粒子所受合力
     
-    vector2Print(&self->forceAccum);
+    //vector2Print(&self->forceAccum);
     vector2AddScaled(&resultAcc, &self->forceAccum, self->inverseMass);
     //更新速度
     vector2AddScaled(&self->velocity, &resultAcc, duration);

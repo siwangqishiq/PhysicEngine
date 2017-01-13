@@ -32,7 +32,7 @@ STATUS ptlRemoveForceGenNode(Linkedlist *list,Particle *particle,PtlForceGen *ge
                 && node->forceGen == gen){
             //free(node);
             free(node);
-            return linkedlist_remove_element(list, p);
+            return linkedlist_remove_element(list, p->data);
         }
         p = p->next;
     }//end while
@@ -64,7 +64,7 @@ void ptlUpdateForce(Linkedlist *list,real delta_time){
             PtlFGenNode *node = (PtlFGenNode *)p->data;
             Particle *particle = node->particle;
             PtlForceGen *gen = node->forceGen;
-            (*gen->updateForce)(particle,delta_time,gen->params);
+            gen->updateForce(particle,delta_time,gen->params);
         }//end if
         p = p->next;
     }//end while
